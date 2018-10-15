@@ -1603,14 +1603,14 @@ do
 				HAVE_ALSA=no
 			else
 
-			ALSA_LIBS="-lasound"
-			# Check for ALSA
-			AC_CHECK_LIB( [asound], [snd_pcm_open],
-				[ AC_CHECK_HEADER( [alsa/asoundlib.h],
-					[ output_modules="$output_modules alsa" HAVE_ALSA="yes"],
-					[ AC_MSG_WARN([Found ALSA library but NOT header files on your system]) ] )
-				]
+			PKG_CHECK_MODULES(ALSA, alsa,
+				[
+					output_modules="$output_modules alsa"
+					HAVE_ALSA="yes"
+				],
+				[ HAVE_ALSA="no" check_failed=yes ]
 			)
+
 			if test "x$HAVE_ALSA" != xyes; then
 				check_failed=yes
 			fi
